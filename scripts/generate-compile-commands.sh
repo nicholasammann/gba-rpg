@@ -16,6 +16,4 @@ else
 fi
 
 # need to install compiledb python package
-pushd ../
-compiledb make
-popd
+compiledb make -j16
