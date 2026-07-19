@@ -1,0 +1,54 @@
+# Compiler settings for the host PC
+CXX = g++
+CXXFLAGS = -std=c++23 -Wall -Wextra -O2
+
+# Point to your game's source folders and include a mock folder if needed
+INCLUDES = -Iinclude -Imocks -Isrc
+
+# Google Test flags (System paths linked)
+GTEST_LIBS = -lgtest -lgtest_main -pthread
+
+# Folders
+SRC_DIR = src
+TEST_DIR = tests
+OBJ_DIR = build_test/obj
+BIN_DIR = build_test/bin
+
+TARGET_TEST = $(BIN_DIR)/run_tests
+
+# 1. Grab ONLY your testable game logic files (Skip GBA main and hardware scenes)
+SCENE_SRCS  = $(wildcard $(SRC_DIR)/Scenes/*.cpp)
+VISUAL_SRCS  = $(wildcard $(SRC_DIR)/Visual/*.cpp)
+
+GAME_SRCS   = $(SCENE_SRCS) $(VISUAL_SRCS)
+GAME_OBJS   = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(GAME_SRCS))
+
+# 2. Grab your test specification files
+TEST_SRCS = $(wildcard $(TEST_DIR)/*.cpp)
+TEST_OBJS = $(patsubst $(TEST_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(TEST_SRCS))
+
+all: test
+
+test: $(TARGET_TEST)
+	@echo "--- RUNNING PC UNIT TESTS ---"
+	./$(TARGET_TEST)
+
+# Link everything together (Both your game object files and test object files)
+$(TARGET_TEST): $(TEST_OBJS) $(GAME_OBJS)
+	@mkdir -p $(BIN_DIR)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $^ $(GTEST_LIBS) -o $@
+
+# Rule to compile any game .cpp file (handles nested folders like Scenes/ and Logic/)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
+
+# Rule to compile test suite specification files
+$(OBJ_DIR)/%.o: $(TEST_DIR)/%.cpp
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
+
+clean:
+	rm -rf build_test
+
+.PHONY: all test clean

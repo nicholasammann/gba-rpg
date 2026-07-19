@@ -1,13 +1,29 @@
 CompileFlags:
   Add:
-    # 1. Force clangd to evaluate code using the GBA arm target
-    - "-target"
-    - "arm-none-eabi"
-    # 2. Tell the C++ standard library that this target platform does NOT support threading
-    - "-D_LIBCPP_HAS_NO_THREADS"
-    - "-D_GTHREADS"
-    # 3. Explicitly provide the compiler sysroot so it maps standard paths autonomously
-    - "--sysroot=/opt/devkitpro/devkitARM/arm-none-eabi"
-    # 4. Map the absolute engine include path from your Makefile
-    - "-I/home/nick/repos/butano/butano/include"
+  - --target=arm-none-eabi
+  - -D_LIBCPP_HAS_NO_THREADS
+  - -D_GTHREADS
+  - --sysroot=/opt/devkitpro/devkitARM/arm-none-eabi
+  - -I/home/nick/repos/butano/butano/include
+  - -I/home/nick/repos/gba-rpg/src
+  - -I/home/nick/repos/gba-rpg/build
+  - -std=c++23
 
+---
+If:
+  PathMatch: ".*tests/.*"
+CompileFlags:
+  Remove:
+    - --target=*
+    - --sysroot=*
+    - -I/opt/devkitpro/*
+    - -I/home/nick/repos/butano/*
+    - -I/home/nick/repos/gba-rpg/* 
+    - -D_LIBCPP_HAS_NO_THREADS
+
+  Add:
+    - -pthread
+    - -Iinclude
+    - -Imocks
+    - -Isrc
+  Compiler: g++
