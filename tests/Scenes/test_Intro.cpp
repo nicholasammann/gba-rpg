@@ -3,7 +3,6 @@
 #include "Scenes/Intro.hpp"
 #include "Scenes/SceneType.hpp"
 
-
 /*
 
 Intro
@@ -21,7 +20,6 @@ SceneBackground-> TimedSceneBackground
 
 */
 
-
 // GTest macro structure: TEST(TestSuiteName, TestName)
 TEST(IntroTest, BackgroundTransitions) {
     Intro introScene;
@@ -33,9 +31,9 @@ TEST(IntroTest, BackgroundTransitions) {
 
 TEST(IntroTest, SceneChange) {
     Intro introScene;
-    
+
     EXPECT_FALSE(introScene.Update());
-    
+
     introScene.SetIntroText("NextLevel");
 
     EXPECT_TRUE(introScene.Update()) << "Intro Scene change did not trigger after setting IntroText to NextLevel" << std::endl;

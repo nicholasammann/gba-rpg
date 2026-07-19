@@ -2,28 +2,28 @@
 
 #include <string>
 
-#include "bn_unique_ptr.h"
-#include "bn_vector.h"
-
 #include "Scene.hpp"
 #include "SceneBackground.hpp"
 #include "TimedSceneBackground.hpp"
+#include "bn_unique_ptr.h"
+#include "bn_vector.h"
 
 constexpr int IntroBackgroundCount = 3;
 
 class Intro : public Scene {
-public:
+   public:
     Intro();
 
     Intro(SceneType targetScene);
 
-    void AddBackground(bn::unique_ptr<TimedSceneBackground> background);
-
     [[nodiscard]] virtual bn::optional<SceneType> Update();
 
-private:
+   private:
     bn::vector<bn::unique_ptr<TimedSceneBackground>, IntroBackgroundCount> mBackgrounds;
     int mCurrentBackgroundIndex;
 
     SceneType mTargetScene;
+
+    void AddBackground(bn::unique_ptr<TimedSceneBackground> background);
+    void AddDefaultBackgrounds();
 };
