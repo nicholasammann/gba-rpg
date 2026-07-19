@@ -14,6 +14,7 @@ private:
     bn::timer mTimer;
     uint64_t mTicks;
     uint64_t mSecondsToDisplay;
+    bool mIsFirstUpdate;
 
 };
 
