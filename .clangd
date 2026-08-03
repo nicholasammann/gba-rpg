@@ -8,6 +8,7 @@ CompileFlags:
   - -I/home/nick/repos/gba-rpg/src
   - -I/home/nick/repos/gba-rpg/build
   - -std=c++23
+  - -Wno-unqualified-std-cast-call
 
 ---
 If:

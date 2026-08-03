@@ -1,9 +1,6 @@
 #pragma once
 
-#include <string>
-
 #include "Scene.hpp"
-#include "SceneBackground.hpp"
 #include "TimedSceneBackground.hpp"
 #include "bn_unique_ptr.h"
 #include "bn_vector.h"
@@ -12,7 +9,9 @@ constexpr int IntroBackgroundCount = 3;
 
 class Intro : public Scene {
    public:
-    Intro();
+    Intro() = delete;
+    Intro(const Intro& other) = delete;
+    Intro& operator=(const Intro& other) = delete;
 
     Intro(SceneType targetScene);
 

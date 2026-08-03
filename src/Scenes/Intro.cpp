@@ -1,14 +1,9 @@
 #include "Intro.hpp"
 
-#include "SceneBackground.hpp"
 #include "SceneType.hpp"
 #include "bn_regular_bg_items_game_title_bg.h"
 #include "bn_regular_bg_items_studio_bg.h"
 #include "bn_regular_bg_items_welcome_bg.h"
-
-Intro::Intro() : mCurrentBackgroundIndex(0), mTargetScene(SceneType::Intro) {
-    AddDefaultBackgrounds();
-}
 
 Intro::Intro(SceneType targetScene) : mTargetScene(targetScene) {
     AddDefaultBackgrounds();
